@@ -22,7 +22,7 @@ Brings the full feature set of sd-civitai-browser-neo — auto-organization, das
 ## 📋 Table of Contents
 
 - [Ex Versioning](#-ex-versioning)
-- [What's New](#-whats-new--v010-ex)
+- [What's New](#-whats-new--v020-ex)
 - [SD Civitai Browser Ex Release Story](#-sd-civitai-browser-ex-release-story)
 - [Roadmap](#%EF%B8%8F-roadmap)
 - [Features](#-features)
@@ -51,6 +51,22 @@ Examples:
 
 ---
 
+## 🆕 What's New — v0.2.0-ex
+
+> **Stability & Feature Sync** — all Neo v0.7.0 fixes and improvements, now on A1111 and Forge Classic.
+
+- **🎯 Smart version selection** — clicking a card with an active base model filter (e.g. Illustrious) auto-selects the most recent version for that family
+- **🔒 Downloads survive screen lock** — Win+L, RunPod reconnects, and SSE disconnects no longer abort downloads in progress
+- **🛡️ EARLY_ACCESS / NO_API safety** — API-blocked downloads no longer save partial `.json`/`.html` files or delete unrelated existing files
+- **📁 Embeddings folder auto-detection** — supports both old (`embeddings/`) and new (`models/embeddings/`) layouts; warns if both have files
+- **🖼️ Fixed send-to-txt2img** — intermittent failure sending prompt/settings to txt2img resolved
+- **🐛 Session restore guard** — download queue no longer crashes restoring a session when the model list hasn't loaded yet
+- **🐛 Model info crash fix** — model info panel no longer errors on lazy fetch when queue enriches a model not in current search results
+- **🐛 `save_images` guard** — no crash when preview HTML is unavailable for a model
+- **🐛 Debug log format** — debug messages now use the correct `[CivitAI Browser Ex]` prefix and respect the debug setting
+
+---
+
 ## 🆕 What's New — v0.1.0-ex
 
 > **First Ex Release** — the complete Neo v0.6.3 feature set, now natively compatible with A1111, Forge Classic, and any Gradio 3.x WebUI.
@@ -67,6 +83,22 @@ Examples:
 ---
 
 ## 📖 SD Civitai Browser Ex Release Story
+
+### v0.2.0-ex
+> **Theme: Stability & Feature Sync** — Neo v0.7.0 fixes and improvements ported to A1111 and Forge Classic.
+
+- [x] Smart version selection by base model filter
+- [x] Downloads survive screen lock / SSE disconnect (Win+L, RunPod)
+- [x] EARLY_ACCESS/NO_API: no more stray saves or unrelated file deletes
+- [x] Embeddings folder auto-detection (old and new layout support)
+- [x] Warn when both embeddings folders have content
+- [x] Fixed send-to-txt2img intermittent failure
+- [x] Guard against None `json_data` in session restore
+- [x] Fixed `UnboundLocalError` for `model_folder` in update flow
+- [x] Guard `None preview_html` in `save_images`
+- [x] Fixed `_debug_log` message format
+
+---
 
 ### v0.1.0-ex
 > **Theme: A1111 & Forge Classic Edition** — all Neo v0.6.3 features working natively on Gradio 3.x.
@@ -89,12 +121,19 @@ Examples:
 - Full Gradio 3.x compatibility ✅
 - All Neo v0.6.3 features inherited ✅
 
-### v0.2.0-ex — Stabilization *(planned)*
+### v0.2.0-ex — Stability & Feature Sync *(complete)*
+- Neo v0.7.0 fixes and improvements ✅
+- Downloads survive screen lock / SSE disconnect ✅
+- EARLY_ACCESS/NO_API safety ✅
+- Embeddings folder auto-detection ✅
+- send-to-txt2img intermittent fix ✅
+
+### v0.3.0-ex — Stabilization *(planned)*
 - A1111-specific path handling improvements
 - Forge Classic quirks and fixes
 - Testing on different Gradio 3.x minor versions
 
-### v0.3.0-ex — Extended Features *(planned)*
+### v0.4.0-ex — Extended Features *(planned)*
 - Saved search presets
 - Favorites in creator search dropdown
 - SHA256 cache injection (read `.json` sidecars → populate `cache.json` instantly)
