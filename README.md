@@ -67,21 +67,6 @@ Examples:
 
 ---
 
-## 🆕 What's New — v0.1.0-ex
-
-> **First Ex Release** — the complete Neo v0.6.3 feature set, now natively compatible with A1111, Forge Classic, and any Gradio 3.x WebUI.
-
-- **🔌 Native A1111 & Forge Classic support** — works out of the box with any Gradio 3.x SD WebUI, no extra setup required
-- **🔒 SHA256 integrity check** — after every download, verified against CivitAI's expected hash; corrupted files caught and removed automatically
-- **⚡ Instant batch enqueue** — API metadata deferred to download time; queuing 10 models is as fast as queuing 1
-- **🧵 Thread-safe cancel** — reliable cancel signals that never block the UI
-- **🔄 Aria2 auto-reconnect** — automatic restart of Aria2 RPC if it becomes unreachable during a download
-- **👤 Creator Management** — favorite / ban creators with instant JS filtering
-- **📊 Dashboard** — disk usage by category, pie chart, top file rankings, export CSV/JSON
-- **🗂️ Auto-Organization** — sort models into subfolders by architecture automatically
-
----
-
 ## 📖 SD Civitai Browser Ex Release Story
 
 ### v0.2.0-ex
