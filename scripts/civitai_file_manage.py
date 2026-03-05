@@ -1595,6 +1595,64 @@ def version_match(file_paths, api_response, log=False):
 
     return updated_models, outdated_models
 
+def _build_update_items_ex(outdated_set, api_response, sha_to_path):
+    """Build gl.update_items for EX from version_match output.
+
+    EX uses version-string detection (no baseModel families), so each outdated
+    model produces a single entry.  sha_to_path maps installed SHA256 → file path
+    so the retention policy can remove the old file even when filenames differ.
+    """
+    outdated_ids = {int(entry[0].replace('&ids=', '')) for entry in outdated_set}
+    items = []
+    for model in api_response.get('items', []):
+        model_id = model.get('id')
+        if model_id not in outdated_ids:
+            continue
+
+        model_name  = model.get('name', '')
+        model_type  = model.get('type', 'Unknown')
+        model_versions = model.get('modelVersions', [])
+        if not model_versions:
+            continue
+
+        preview_url = None
+        for ver in model_versions:
+            for img in ver.get('images', []):
+                url = img.get('url', '')
+                if url:
+                    preview_url = url
+                    break
+            if preview_url:
+                break
+
+        latest_ver_name = model_versions[0].get('name', '?')
+
+        # Find the installed (older) version and its file path
+        installed_ver_name = '?'
+        old_file = ''
+        for ver in model_versions[1:]:  # skip index 0 (newest)
+            for fe in ver.get('files', []):
+                sha = fe.get('hashes', {}).get('SHA256', '').upper()
+                if sha in sha_to_path:
+                    installed_ver_name = ver.get('name', '?')
+                    old_file = sha_to_path[sha]
+                    break
+            if old_file:
+                break
+
+        items.append({
+            'model_id':      model_id,
+            'model_name':    model_name,
+            'model_type':    model_type,
+            'family':        None,  # EX does not use baseModel family grouping
+            'installed_ver': installed_ver_name,
+            'latest_ver':    latest_ver_name,
+            'preview_url':   preview_url,
+            'old_file':      old_file,
+        })
+    return items
+
+
 def get_content_choices(scan_choices=False):
     content_list = [
         'Checkpoint', 'TextualInversion', 'LORA', 'Poses', 'Controlnet', 'Detection',
@@ -1809,6 +1867,18 @@ def file_scan(folders, tag_finish, ver_finish, installed_finish, preview_finish,
 
         all_model_ids = [model[0] for model in outdated_set]
         all_model_names = [model[1] for model in outdated_set]
+
+        # Populate gl.update_items so Update Mode cards and update_all/selected work correctly.
+        # Also tracks old_file_path so retention policy applies even when filename changes.
+        _sha_to_path = {}
+        for _fp in file_paths:
+            _jp = f"{os.path.splitext(_fp)[0]}.json"
+            _d = _api.safe_json_load(_jp)
+            if _d:
+                _s = _d.get('sha256', '').upper()
+                if _s:
+                    _sha_to_path[_s] = _fp
+        gl.update_items = _build_update_items_ex(outdated_set, api_response, _sha_to_path)
 
         # Store for Dashboard update summary
         import datetime as _dt
