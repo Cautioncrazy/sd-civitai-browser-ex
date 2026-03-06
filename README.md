@@ -51,11 +51,12 @@ Examples:
 
 ---
 
-## 🆕 What's New — v0.2.x-ex
+## 🆕 What's New — v0.2.1-ex
 
-### Wildcard Download Improvements *(synced from Neo)*
+### Wildcard Download Improvements *(synced from Neo v0.7.1)*
 
 - **Wildcards get their own subfolder** — each wildcard pack downloads into `wildcards/<model-name>/` by default, compatible with sd-dynamic-prompts `__subfolder/name__` syntax
+- **Flat zip extraction for wildcards** — files inside the zip are placed directly in the target folder with no internal folder structure, preventing double-nesting
 - **No preview images for wildcards** — `save_preview` and `save_images` are skipped for Wildcards
 - **Configurable base-model split for wildcards** — new setting `Organize wildcards by base model` (off by default)
 
@@ -115,6 +116,12 @@ Examples:
 ### v0.1.0-ex — Gradio 3 Port *(complete)*
 - Full Gradio 3.x compatibility ✅
 - All Neo v0.6.3 features inherited ✅
+
+### v0.2.1-ex — Wildcard Improvements *(current)*
+- Wildcards get their own subfolder per download
+- Flat zip extraction for wildcards — no double-nesting
+- Skip preview/images for wildcards
+- New settings: `wildcard_own_folder` (ON) and `wildcard_organize_by_base` (OFF)
 
 ### v0.2.0-ex — Stability & Feature Sync *(complete)*
 - Neo v0.7.0 fixes and improvements ✅
