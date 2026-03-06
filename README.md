@@ -98,22 +98,15 @@ Examples:
 
 ## 🗺️ Roadmap
 
-### v0.1.0-ex — Gradio 3 Port *(complete)*
-- Full Gradio 3.x compatibility ✅
-- All Neo v0.6.3 features inherited ✅
+### v0.1.0-ex — Gradio 3 Port *(complete)* ✅
+
+### v0.2.0-ex — Stability & Feature Sync *(complete)* ✅
 
 ### v0.2.1-ex — Wildcard Improvements *(current)*
 - Wildcards get their own subfolder per download
 - Flat zip extraction for wildcards — no double-nesting
 - Skip preview/images for wildcards
 - New settings: `wildcard_own_folder` (ON) and `wildcard_organize_by_base` (OFF)
-
-### v0.2.0-ex — Stability & Feature Sync *(complete)*
-- Neo v0.7.0 fixes and improvements ✅
-- Downloads survive screen lock / SSE disconnect ✅
-- EARLY_ACCESS/NO_API safety ✅
-- Embeddings folder auto-detection ✅
-- send-to-txt2img intermittent fix ✅
 
 ### v0.3.0-ex — Stabilization *(planned)*
 - A1111-specific path handling improvements
