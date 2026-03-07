@@ -891,13 +891,14 @@ def download_create_thread(download_finish, queue_trigger, progress=gr_progress_
         try:
             _lazy_result = _api.update_model_info(None, (item['model_versions'] or {}).get('value'), False, item['model_id'])
             item['preview_html'] = _lazy_result[0].get('value', '') if isinstance(_lazy_result[0], dict) else ''
-            item['existing_path'] = _lazy_result[11].get('value', item['install_path']) if isinstance(_lazy_result[11], dict) else item['install_path']
+            item['existing_path'] = (_lazy_result[11].get('value') if isinstance(_lazy_result[11], dict) else None) or item['install_path']
         except Exception as _e:
             debug_print(f"[Lazy fetch] Could not load API data for {item['model_name']}: {_e}")
         item['_api_ready'] = True
 
     # Fix #3: do not mutate item dict — use a local effective path
-    effective_install_path = item['existing_path'] if item['from_batch'] else item['install_path']
+    # Fallback to install_path if existing_path is None (e.g. lazy fetch returned value=None)
+    effective_install_path = (item['existing_path'] or item['install_path']) if item['from_batch'] else item['install_path']
 
     gl.isDownloading = True
     _not_downloading.clear()  # signal: download in progress
