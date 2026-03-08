@@ -278,6 +278,7 @@ def on_ui_tabs():
             gr.Markdown('## 🔍 Browse CivitAI Models', elem_id='browser_header')
             gr.Markdown('Search, discover, and download models directly from CivitAI.')
             restore_banner_html = gr.HTML(value='', elem_id='restore_banner')
+            update_mode_banner = gr.HTML(value='', elem_id='update_mode_banner')
             
             with gr.Row(elem_id='searchRow'):
                 with gr.Accordion(label='', open=False, elem_id=filterBox):
