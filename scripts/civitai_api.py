@@ -2009,26 +2009,10 @@ def request_civit_api(api_url=None, skip_error_check=False):
             response.encoding = 'utf-8'
             try:
                 data = json.loads(response.text)
-            except json.JSONDecodeError:
-                print(response.text)
-                print('The CivitAI servers are currently offline. Please try again later.')
-                return 'offline'
-            return data
-
-        except requests.exceptions.HTTPError as e:
-            if e.response.status_code == 404:
-                print(f"Model version not found (404): {api_url}")
-                return 'not_found'
-            
-            if e.response.status_code in [500, 502, 503, 504]:
-                if attempt < max_attempts:
-                    wait_time = base_backoff_seconds * (2 ** (attempt - 1))
-                    print(f"[CivitAI Browser EX] - HTTP {e.response.status_code} Error (attempt {attempt}/{max_attempts}). Retrying in {wait_time}s...")
-                    time.sleep(wait_time)
-                    continue
-            
-            print(f"HTTP Error {e.response.status_code}: {e}")
-            return 'error'
+                return data
+            except json.JSONDecodeError as e:
+                print(f"CivitAI API: JSON decode error - {e}")
+                return 'error'
 
         response.raise_for_status()
         response.encoding = 'utf-8'
@@ -2061,9 +2045,9 @@ def request_civit_api(api_url=None, skip_error_check=False):
 
         print(f"[CivitAI Browser Ex] - Error: {e}")
         if dns_resolution_error:
-                print(f"[CivitAI Browser Ex] - DNS resolution failed (attempt {max_attempts}/{max_attempts}). No more retries.")
-                return 'dns_error'
-            return 'error'
+            print(f"[CivitAI Browser Ex] - DNS resolution failed. No more retries.")
+            return 'dns_error'
+        return 'error'
 
     return 'error'
 
